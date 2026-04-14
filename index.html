@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html ng-app="registrationApp">
+<head>
+  <title>User Registration Form</title>
+
+  <!-- AngularJS CDN -->
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+
+  <style>
+    body {
+      font-family: Arial;
+      background-color: #f2f2f2;
+      padding: 20px;
+    }
+
+    .container {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      width: 400px;
+      margin: auto;
+      box-shadow: 0 0 10px gray;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 8px;
+      margin: 10px 0;
+    }
+
+    button {
+      padding: 10px;
+      background-color: blue;
+      color: white;
+      border: none;
+      width: 100%;
+      cursor: pointer;
+    }
+
+    .error {
+      color: red;
+      font-size: 12px;
+    }
+  </style>
+</head>
+
+<body ng-controller="FormController">
+
+<div class="container">
+  <h2>User Registration</h2>
+
+  <form name="regForm" ng-submit="submitForm()" novalidate>
+
+    <!-- Name -->
+    <input type="text" name="name" placeholder="Full Name"
+           ng-model="user.name" required>
+    <div class="error" ng-show="regForm.name.$touched && regForm.name.$invalid">
+      Name is required
+    </div>
+
+    <!-- Email -->
+    <input type="email" name="email" placeholder="Email"
+           ng-model="user.email" required>
+    <div class="error" ng-show="regForm.email.$touched && regForm.email.$invalid">
+      Valid email required
+    </div>
+
+    <!-- Password -->
+    <input type="password" name="password" placeholder="Password"
+           ng-model="user.password" ng-minlength="6" required>
+    <div class="error" ng-show="regForm.password.$touched && regForm.password.$invalid">
+      Minimum 6 characters required
+    </div>
+
+    <!-- Gender -->
+    <select ng-model="user.gender" required>
+      <option value="">Select Gender</option>
+      <option>Male</option>
+      <option>Female</option>
+    </select>
+
+    <!-- Age -->
+    <input type="number" name="age" placeholder="Age"
+           ng-model="user.age" min="18" required>
+    <div class="error" ng-show="regForm.age.$touched && regForm.age.$invalid">
+      Age must be 18+
+    </div>
+
+    <!-- Submit -->
+    <button type="submit" ng-disabled="regForm.$invalid">
+      Register
+    </button>
+
+  </form>
+
+  <!-- Display Data -->
+  <div ng-if="submitted">
+    <h3>Registered User Details</h3>
+    <p><b>Name:</b> {{user.name}}</p>
+    <p><b>Email:</b> {{user.email}}</p>
+    <p><b>Gender:</b> {{user.gender}}</p>
+    <p><b>Age:</b> {{user.age}}</p>
+  </div>
+</div>
+
+<script>
+  var app = angular.module("registrationApp", []);
+
+  app.controller("FormController", function($scope) {
+
+    $scope.user = {};
+    $scope.submitted = false;
+
+    $scope.submitForm = function() {
+      if ($scope.regForm.$valid) {
+        $scope.submitted = true;
+        alert("Registration Successful!");
+      }
+    };
+
+  });
+</script>
+
+</body>
+</html>
